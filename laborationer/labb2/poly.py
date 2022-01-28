@@ -1,15 +1,19 @@
-# Author:
+# Author: Rickard Mårtensson rmarte@kth.se
 import math
 
 
 def poly_to_string(p_list):
-    """[summary]
+    """takes in a list with coefficients for a polynom, and returns a string representing the polynom
 
     Args:
-        p_list ([type]): [description]
+        p_list ([list[number]]): [a list of numbers, ints or floats]
 
     Returns:
-        [type]: [description]
+        [string]: [a string representing a polynomial]
+
+    Example:
+        [3, 2, 1, 0] -> 3 + 2x + 1x^2 + 0x^3
+        [0, 2, 1, 0] -> 0 + 2x + 1x^2 + 0x^3
     """
     terms = []
     degree = 0
@@ -28,7 +32,7 @@ def poly_to_string(p_list):
             terms.append(term)
         degree += 1
 
-    final_string = " + ".join(terms)  # The string ' + ' is used as "glue" between the elements in the string
+    final_string = " + ".join(terms)
     return final_string
 
 
@@ -41,6 +45,9 @@ def eval_poly(p_list: list, x: float) -> float:
 
     Returns:
         float: output parsed as a float
+
+    Example:
+    [3, 2, 1, 0], 3 -> 18.0
     """
 
     poly_val = 0
@@ -50,13 +57,16 @@ def eval_poly(p_list: list, x: float) -> float:
 
 
 def drop_zeroes(p_list):
-    """Drops the trailing zeroes in a polynom
+    """Drops the trailing zeroes in a polynom in list-form
 
     Args:
-        p_list ([numbers]): list of integers or floats
+        p_list ([list[numbers]]): list of integers or floats
 
     Returns:
-        return_list ([numbers]) : list of integers or floats
+        return_list ([list[numbers]]) : list of integers or floats
+
+    Example:
+        [4, 2, 0, 1, 0, 0, 0] -> [4, 2, 0, 1]
     """
     for i in reversed(p_list):
         if i == 0:
@@ -72,15 +82,7 @@ def neg_poly(p_list):
 
 
 def _pad_zeroes(p_list: list, zeroes: int):
-    """pads zeros to the end of a list so that the total length of the list is zeroes long
-
-    Args:
-        p_list (list[numbers]): list of integers or floats
-        zeroes ([type]): length of the requested list
-
-    Returns:
-        list:
-    """
+    """pads zeros to the end of a list so that the total length of the list is zeroes long"""
     return p_list + [0] * (zeroes - len(p_list))
 
 
@@ -88,17 +90,32 @@ def add_poly(p_list: list, q_list: list) -> list:
     """adds two polynomials together
 
     Args:
-        p_list ([type]): [description]
-        q_list ([type]): [description]
+        p_list ([type]): a list of floats or ints representing a polynom
+        q_list ([type]): a list of floats or ints representing a polynom
 
     Returns:
-        list:
+        ([list[number]]): a list of floats or ints representing a polynom
+
+    Example:
+        [1,2,3], [3,2,1] -> [4, 4, 4]
     """
     max_len = max(len(p_list), len(q_list))
     return list(map(lambda x, y: x + y, _pad_zeroes(p_list, max_len), _pad_zeroes(q_list, max_len)))
 
 
 def sub_poly(p_list, q_list):
+    """subtracts two polynomials from each other, ie subtracts q_list from p_list
+
+    Args:
+        p_list ([type]): a list of floats or ints representing a polynom
+        q_list ([type]): a list of floats or ints representing a polynom
+
+    Returns:
+        ([list[number]]): a list of floats or ints representing a polynom
+
+    Example:
+        [1,2,3], [3,2,1] -> [-2, 0, 2]
+    """
     print(p_list, q_list, add_poly(p_list, neg_poly(q_list)))
     return add_poly(p_list, neg_poly(q_list))
     # return list(map(lambda x, y: x + y, p_list, neg_poly(q_list)))
@@ -107,15 +124,6 @@ def sub_poly(p_list, q_list):
 def eq_poly(p_list, q_list):
     print("p", drop_zeroes(p_list), "q:", drop_zeroes(q_list))
     return drop_zeroes(p_list) == drop_zeroes(q_list)
-
-
-def main():
-    # Uppgift 1
-    p = [2, 1]
-    q = [-2, 1, 0, 0, 1]
-    print("p:", poly_to_string(p), "q:", poly_to_string(q))
-
-    print()
 
 
 def _test():
@@ -144,5 +152,4 @@ def _test():
 
 
 if __name__ == "__main__":
-    main()
     _test()

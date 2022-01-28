@@ -2,7 +2,7 @@ import random  # only used for debugging, not the algorithm itself
 
 
 def _binary_find(x, s_list):
-    """Finds a index of where to insert in O(log(n)),
+    """Finds a index of where to insert a entry in O(log(n)) time,
 
     Args:
         x ([number]): [the item that acts as the needle]
@@ -14,7 +14,7 @@ def _binary_find(x, s_list):
     Example:
         2.5, [0, 1, 2, 3, 4] -> 3
         3, [] -> 0
-        1, [1,1,1,1,1,1,2] -> 5
+        1, [1,1,1,1,1,1,2] -> 6
     """
     list_len = len(s_list)
     floor = 0
@@ -26,9 +26,6 @@ def _binary_find(x, s_list):
         elif x >= s_list[needle_idx]:
             floor = needle_idx + 1
     return roof
-
-
-# print(_binary_find(13.5, my_list))
 
 
 def binary_insert_sorted(x, s_list):
@@ -66,12 +63,29 @@ def insertion_sort(s_list):
     return loop_list
 
 
+def count_rows(filename):
+    f = open(filename)
+    lines = 0
+    while f.readline():
+        lines += 1
+    return lines
+
+
+def annotate(filename):
+    f = open(filename)
+
+
+print(count_rows("loremipsum.txt"))
+
+
 def main():
     my_list = [i for i in range(30)]
     binary_insert_sorted(13.5, my_list)
     binary_insert_sorted(3, [])
 
-    print(insertion_sort([random.randrange(0, 100) for _ in range(25)]))
+    # print(_binary_find(1, [1, 1, 1, 1, 1, 1, 2]))
+
+    # print(insertion_sort([random.randrange(0, 100) for _ in range(25)]))
 
 
 if __name__ == "__main__":
