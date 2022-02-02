@@ -116,7 +116,7 @@ def sub_poly(p_list, q_list):
     Example:
         [1,2,3], [3,2,1] -> [-2, 0, 2]
     """
-    print(p_list, q_list, add_poly(p_list, neg_poly(q_list)))
+    # print(p_list, q_list, add_poly(p_list, neg_poly(q_list)))
     return add_poly(p_list, neg_poly(q_list))
     # return list(map(lambda x, y: x + y, p_list, neg_poly(q_list)))
 
