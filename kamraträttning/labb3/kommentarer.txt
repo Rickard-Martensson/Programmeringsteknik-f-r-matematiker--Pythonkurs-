@@ -1,0 +1,28 @@
+personligen så skulle jag bett om rad och kolumn på samma rad. Det låter kanske svårt, men är ganska lätt faktiskt:
+
+rad, kolumn = map(int, input("skriv rad och kolumn: ").split())
+
+Om jag var du så skulle jag omformulera varje kommentar så att du kan sätta dom under funktionerna. Alltså istället för att skriva '''Definiera en funktion som testar om elementen i en lista är sorterade''' så kan du under is_sorted(l) skriva
+"""Kollar om en lista är sorterad. Returnerar False om inte, annars True""". Är du extra ambitiös så kan du använda denna template:
+
+    """Finds wether a list is sorted or not.
+
+    Args:
+        my_list ([list[number]]): [a list of floats or ints]
+
+    Returns:
+        [bool]: [wether the array is sorted or not]
+
+    Example:
+        [0, 1, 2, 3, 4] -> True
+        [] -> True
+        [2,1,1,1,1,1,2] -> False
+    """
+
+Alltså 1. En kort beskriving
+2. Beskriv input till funktionen
+3. beskriv output till funktionen
+4. några exempel på I/O
+
+Du har såklart skrivit väldigt bra kod, va stolt! Bra jobbat!!!
+

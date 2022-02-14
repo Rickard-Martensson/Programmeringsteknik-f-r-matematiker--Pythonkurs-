@@ -1,4 +1,3 @@
-from itertools import count
 import random  # only used for debugging, not the algorithm itself
 
 TESTFIL = "loremipsum.txt"
@@ -20,6 +19,7 @@ def _binary_find(x, s_list):
         3, [] -> 0
         1, [1,1,1,1,1,1,2] -> 6
     """
+    # om du är intresserad hur algoritmen fungerar, så
     list_len = len(s_list)
     floor = 0
     roof = list_len
