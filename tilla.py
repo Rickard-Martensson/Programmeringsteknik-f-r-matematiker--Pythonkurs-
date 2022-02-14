@@ -44,3 +44,47 @@ Sen måste ju dom också tycka att det är en bra matching såklart
     
 
     """
+
+
+from http.cookiejar import Cookie
+from typing import List
+
+
+def _binary_search(V: List[int], items: List[int], low: int, high: int, needle: int) -> int:
+    if (low + 1) == high:
+        return high
+    pivot = (low + high) // 2
+    if items[V[pivot]] < needle:
+        low = pivot
+    elif items[V[pivot]] > needle:
+        high = pivot
+    else:
+        return pivot
+    return _binary_search(V, items, low, high, needle)
+
+
+def lis(items: List[int]) -> List[int]:
+    inf = max(items) + 1
+    P = [None] * len(items)  # where the number at index k points.
+    V = [inf] * (len(items) + 1)  # last digit in the best subsequence with length k
+    longest_seq_found = 0
+
+    for i, item in items:
+        v_index = _binary_search(V, items, 0, longest_seq_found + 1, item)
+        V[v_index] = i
+        P[i] = V[v_index - 1]
+        longest_seq_found = max(longest_seq_found, v_index)
+
+    output, prev_index = [], V[longest_seq_found]
+    for _ in range(longest_seq_found):
+        output.append(prev_index)
+        prev_index = P[prev_index]
+
+    output.reverse()
+    return output
+
+
+if Cookie.accept:
+    collect_data()
+else:
+    collect_data()
