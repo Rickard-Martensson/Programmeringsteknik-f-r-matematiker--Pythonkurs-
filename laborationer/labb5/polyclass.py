@@ -1,6 +1,8 @@
 from __future__ import annotations
+from email.charset import QP
 from typing import Type
-import math
+import matplotlib.pyplot as plt
+from numpy import append
 
 
 class Poly:
@@ -16,6 +18,31 @@ class Poly:
             l_type = type(l)
             raise TypeError(f'Wrong type. Expected "list", found {l_type}')
         self.l = l
+
+    def plot_poly(self, filename: str = "myplot", x_start: float = -10, x_end: float = 10, colour: str = "b", step_size: float = 1) -> None:
+        """Plots a polynomial from x_start to x_end, with steps step_size
+
+        Args:
+            filename (str, optional): _description_. Defaults to "myplot".
+            x_start (float, optional): _description_. Defaults to -10.
+            x_end (float, optional): _description_. Defaults to 10.
+            color (str, optional): _description_. Defaults to "b".
+
+        Returns:
+            Nothing, but creates a file named 'filename' with the plot
+
+        Examples:
+            Poly([3, -1, 2, 1]).plot_polt() -->
+
+            y
+            |            /
+            |    _______/
+            |   /
+            |  /
+            |_________________x
+        """
+        plt.plot([x for x in range(x_start, x_end, 1)], [self.evaluate(x) for x in range(x_start, x_end, 1)], color=colour)
+        plt.savefig(filename)
 
     def degree(self) -> int:
         """Returns the degree of a polynomail
@@ -57,7 +84,7 @@ class Poly:
         """
         poly_eval = 0
         for idx, val in enumerate(self.l):
-            poly_eval += val * math.pow(x, idx)
+            poly_eval += val * x**idx
         return poly_eval
 
     def __str__(self) -> str:
@@ -69,12 +96,13 @@ class Poly:
         for idx, coeff in enumerate(self.l):
             if coeff == 0:
                 continue
+            str_coeff = "" if coeff == 1 else str(coeff)
             if idx == 0:
-                terms.append(str(coeff))
+                terms.append(str_coeff)
             elif idx == 1:
-                terms.append(str(coeff) + "x")
+                terms.append(str_coeff + "x")
             else:
-                term = str(coeff) + "x^" + str(idx)
+                term = str_coeff + "x^" + str(idx)
                 terms.append(term)
 
         final_string = " + ".join(terms)
@@ -125,9 +153,71 @@ class Poly:
         return Poly(self.l)
 
 
-# poly_a = Poly([1, 3, 2])
-# poly_a = Poly(1)
-# poly_a = Poly([1, 3, 2])
+class QPoly(Poly):
+    def __init__(self, l: list[float] = None) -> None:
+        super().__init__(l)
+        if l == None:
+            self.l = [0, 0, 1]
+        self = self.drop_zeroes()
+        if len(l) != 3:
+            raise ValueError(f"not a quadratic polynomial. Expected list of length 3, found length {len(l)}")
 
-print(repr(Poly([1, 2, 3])))
-print(Poly([1, 2, 3]))
+    def compute_roots(self) -> list[float]:
+        """Computes the roots to a quadratic polynomial. Will calculate complex roots aswell.
+
+        Returns:
+            list[float]: A list of length 1 or 2, each element being a root.
+
+        Examples:
+            QPoly([1, 4, 4]).compute_roots(self) --> [-0.5]
+            QPoly([10, 4, 2]).compute_roots(self) --> [(-1 - 2j), (-1 + 2j)]
+
+        """
+        c, b, a = self.l
+        root = (b**2 - 4 * a * c) ** 0.5 if (b**2 >= 4 * a * c) else complex(0, ((4 * a * c - b**2)) ** 0.5)
+        return [(-b - root) / (2 * a), (-b + root) / (2 * a)] if root != 0 else [-b / (2 * a)]
+
+
+def test():
+    # del 1
+    p0 = Poly([0, 1])
+    p1 = Poly([0, 0, 0, 0, 1, 0])
+    p2 = Poly([0, 0, 4, 5])
+    p3 = Poly([5, 4, 3, 2, 1])
+    assert p0.degree() == 1
+    assert p1.degree() == 4
+    assert p2.degree() == 3
+    assert p3.degree() == 4
+    assert p0.evaluate(7) == 7
+    assert p1.evaluate(1) == 1
+    assert p1.evaluate(2) == 16
+    assert p2.evaluate(0) == 0
+    assert p2.evaluate(1) == 9
+    assert p2.evaluate(2) == 56
+    assert p3.evaluate(1) == 15
+
+    # del 2
+    assert str(p0) == "x"
+    assert str(p1) == "x^4"
+    assert str(p2) == "4x^2 + 5x^3"
+    assert str(p3) == "5 + 4x + 3x^2 + 2x^3 + x^4"
+
+    # del 3
+    qp1 = QPoly([1, 4, 4])
+    qp2 = QPoly([-16, 0, 1])
+    qp3 = QPoly([10, 4, 2])
+    assert qp1.compute_roots() == [-0.5]
+    assert qp2.compute_roots() == [-4, 4]
+    assert qp3.compute_roots() == [(-1 - 2j), (-1 + 2j)]
+    try:
+        QPoly([1, 4, 4, 4, 6])
+    except ValueError as E:
+        print(f'seems to be working, caught error "{E}"')
+
+    # del 4
+    p = Poly([3, -1, 2, 1])
+    p.plot_poly("myplot")
+
+
+if __name__ == "__main__":
+    test()

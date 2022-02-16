@@ -1,0 +1,11 @@
+Gillar att du har stora kommentarer under varje funktion, som beskriver hur den gör! Snyggt! Om du vill göra det ännu bättre (det är väldigt bra redan, oroa dig inte) Så skulle du kunna skriva fyra delar i kommentaren.
+
+1. Description: Förklarar vad funktionen gör
+2. Args: förklarar vilken typ av input funktionen tar emot. Types osv
+3. Returns: Förklarar hur utdatan ser ut. Types osv
+4. Examples: 1-3 exempel på in-och-ut-data
+
+Men bra jobbat!!
+
+
+Mycket stiligt! Vissa uppgifter var bara 1 eller två rader. Om du vill vara extra cool, och vi tittar på uppgift 1 så kan vi istället för att först skapa variabeln 'derivative' och sen returnera den, bara skriva ' return list(p_list.... '. 
