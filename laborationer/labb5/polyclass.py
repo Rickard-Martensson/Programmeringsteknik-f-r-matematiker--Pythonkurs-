@@ -1,22 +1,32 @@
 from __future__ import annotations
-from email.charset import QP
 from typing import Type
 import matplotlib.pyplot as plt
-from numpy import append
 
 
 class Poly:
     def __init__(self, l: list[float] = None) -> None:
-        """[summary]
+        """
+        A class used for calculations with polynomials.
+        Polynomials are initiated and stored as a list of numbers
+        Will default to the zero-polynomial if there is no imput-list
 
         Args:
-            list (list[float]): [a list of floats, each representing ]
+            list (list[float]): [a list of floats, each representing a coefficient in the polynomial]
+
+        Example usage:
+            Poly([1, 2, 3]) -> 3x^2 + 2x + 1
+
+        Raises:
+            Valueerror: l is neither a list of numbers, nor un-set.
         """
         if l == None:
             self.l = []
         elif not isinstance(l, list):
             l_type = type(l)
             raise TypeError(f'Wrong type. Expected "list", found {l_type}')
+        elif len(l) != 0:
+            if (not isinstance(l[0], float)) and (not isinstance(l[0], int)):
+                raise TypeError(f"Wrong type. Expected list of floats or ints, found list of {type(l[0])}")
         self.l = l
 
     def plot_poly(self, filename: str = "myplot", x_start: float = -10, x_end: float = 10, colour: str = "b", step_size: float = 1) -> None:
@@ -41,7 +51,7 @@ class Poly:
             |  /
             |_________________x
         """
-        plt.plot([x for x in range(x_start, x_end, 1)], [self.evaluate(x) for x in range(x_start, x_end, 1)], color=colour)
+        plt.plot([x for x in range(x_start, x_end + step_size, step_size)], [self.evaluate(x) for x in range(x_start, x_end + step_size, step_size)], color=colour)
         plt.savefig(filename)
 
     def degree(self) -> int:
@@ -151,6 +161,9 @@ class Poly:
             else:
                 break
         return Poly(self.l)
+
+
+hej = Poly()
 
 
 class QPoly(Poly):

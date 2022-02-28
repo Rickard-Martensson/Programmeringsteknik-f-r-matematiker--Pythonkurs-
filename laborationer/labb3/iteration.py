@@ -1,9 +1,30 @@
 import random  # only used for debugging, not the algorithm itself
 
+# alltså jag använder random för att slumpa fram en lista som jag sen sorterar när programmet körs
+
 TESTFIL = "loremipsum.txt"
 
 
 # //==== uppgift 1 ====\\
+def is_sorted(l: list) -> bool:
+    """Return a boolean wether or not a list is sorted. element do not need to be strictly increasing in size
+    complexity: O(n)
+
+    Args:
+        l (list): a list of elements with a defined __leq__ operator
+
+    Returns:
+        bool: a bolean wether the list is sorted or not
+
+    Examples:
+        [] -> True
+        [1] -> True
+        [1, 2, 2, 3] -> True
+        [3, 2] -> False
+    """
+    return all(l[x] <= l[x + 1] for x in range(0, len(l) - 1))
+
+
 def _binary_find(x, s_list):
     """Finds a index of where to insert a entry in O(log(n)) time,
 
@@ -39,10 +60,15 @@ def binary_insert_sorted(x, s_list):
         x ([number]): [description]
         s_list ([type]): [description]
 
+    Raises:
+        ValueError : if the array is not sorted
+
     Example:
         3.5, [1,2,3,4] -> [1,2,3,3.5,4]
         9, [] -> [9]
     """
+    if not is_sorted(s_list):
+        raise ValueError(f"s_list is not sorted")
     s_list.insert(_binary_find(x, s_list), x)
     # print(s_list)
 
@@ -150,7 +176,7 @@ def programsnutt():
         x, y = map(int, indata.split())
         if x >= len(mindict) or y >= len(mindict[x]):
             print("Out of bounds")
-            return
+            continue
         print("Space" if mindict[x][y] == " " else mindict[x][y])
 
 
