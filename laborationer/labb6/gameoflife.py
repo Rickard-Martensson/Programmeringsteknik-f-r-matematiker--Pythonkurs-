@@ -25,7 +25,14 @@ class Cell:
         self._friends = 0
 
     def coordinates(self):
-        """Return the coordinates of the cell as a tuple"""
+        """Return the coordinates of the cell as a tuple
+
+        Returns:
+            tuple(x, y): where x and y is the coordinates of the cell.
+
+        Example:
+            Cell(2,3).coordinates() -> (2, 3)
+        """
         return (self._x, self._y)
 
     def neighbors(self):
@@ -62,6 +69,16 @@ class Cell:
 
 
 def randomWorld(width, height, d=3):
+    """Generates a random world which is already temporarly filled
+
+    Args:
+        width (_type_): _description_
+        height (_type_): _description_
+        d (int, optional): density of living cells in the world, on a scale 0-10. A value of 7 would mean roughly 70% of the world inhabitants would be alive. Defaults to 3.
+
+    Returns:
+        set(): a set containing all living cells.
+    """
     world = set()
     for x in range(width):
         for y in range(height):
@@ -78,12 +95,18 @@ print("hej", Cell(2, 3).neighbors())
 
 
 def update(world):
-    """Update the world by applying the rules of the game:
+    """Updates the world by applying the rules of the game:
 
     1. Any live cell with two or three live neighbors survives.
     2. Any dead cell with three live neighbors becomes a live cell.
     3. All other live cells die in the next generation. Similarly,
        all other dead cells stay dead.
+    Args:
+        world (set()): a set containing all living cells in the world prior to the updates.
+        Can be of any size
+
+    Returns:
+        set(): a set containing all living cells in the next iteration
     """
     counter = dict()
     result = set()
